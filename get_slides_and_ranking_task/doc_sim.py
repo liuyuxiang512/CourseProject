@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sat Dec 12 18:33:33 2020
+Created on Sat Dec 12 20:29:13 2020
 
 @author: hongfei7
 """
 
-from gensim.summarization import bm25
+import gensim
 import os
-import heapq
 import json
+import heapq
 
 filenames = []
 
@@ -31,12 +31,11 @@ def read_corpus(dir_path):
             if f == ".DS_Store":
                 continue
             corpus.append(tokenization(f))
-            #print("file is :" + f)
             new_filename = f.replace(".txt", ".pdf")
             filenames.append(new_filename)
     print("Corpus size is :" + str(len(corpus)))
     return corpus
-    
+
 def simulate_query_by_topics(topic_file):
     ret = {}
     topics = []
@@ -58,7 +57,7 @@ def simulate_query_by_topics(topic_file):
                 ret[topic] = res
             x+=1
     return ret
-    
+
 if __name__ == "__main__":
     dir_path = 'corpus/'
     
@@ -66,17 +65,23 @@ if __name__ == "__main__":
     if not os.path.exists(target_path):
         os.makedirs(target_path)
     
-    output_filename = "result/bm25.txt"
-    corpus = read_corpus(dir_path)
-    # print(len(filenames))
-    bm25Model = bm25.BM25(corpus)
+    output_filename = "result/sim.txt"
+
+    texts = read_corpus(dir_path)
+    dictionary = gensim.corpora.Dictionary(texts)
+    corpus = [dictionary.doc2bow(doc) for doc in texts]
     
-    topic_query = simulate_query_by_topics("topics_9.json")
+    tf_idf = gensim.models.TfidfModel(corpus)
+    # print(tf_idf)
+    
+    index = gensim.similarities.SparseMatrixSimilarity(tf_idf[corpus], num_features=len(dictionary))
+    
+    topic_query = simulate_query_by_topics("topics.json")
+    
+    x = 0
     
     with open(output_filename,'w') as f:
         pass
-    
-    x = 0
     
     for topic in topic_query:
         query_str = topic_query[topic]
@@ -85,15 +90,16 @@ if __name__ == "__main__":
         query = []
         for word in query_str.strip().split():
             query.append(word.lower())
-        scores = bm25Model.get_scores(query)
+        query_doc_bow = dictionary.doc2bow(query)
+        sims = index[tf_idf[query_doc_bow]]
         
-        # get the top 10 indexes
-        indexes = heapq.nlargest(10, range(len(scores)), scores.__getitem__)
+        indexes = heapq.nlargest(10, range(len(sims)), sims.__getitem__)
          
-        # get the top 10 values
-        values = heapq.nlargest(10,scores)
+        values = heapq.nlargest(10,sims)
         
-        # print(indexes)
+        
+        
+        #print(indexes)
         print(values)
         
         for i in indexes:
@@ -105,7 +111,3 @@ if __name__ == "__main__":
             for i in indexes:
                 f.write(filenames[i] + "\n")
             f.write("------------------segmentation line-------------------\n")
-
-
-
-

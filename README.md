@@ -19,6 +19,8 @@ This project contains two main components. The first part is to identify hot top
 
 ### 1.2 Scrawl Slides And Rank Them With Each Topic
 
+This part is under the folder "get_slides_and_ranking_task".
+
 - `pdf_download.py`: Scrapes slides from four fixed UIUC course websites which are CS225, CS240, CS425 and CS447. It will download all the PDF documents to a local directory "slides".
 - `pdf_miner.py`: Read the slides under the "slides" folder and use pdfminer tool to extract text from the slides. Then, write the raw text to a "txt" file under the folder "raw". For example, if it read a PDF file "slides/Lecture1.pdf", there will be a text file "raw/Lecture1.txt" which contains the text data of the original PDF file.
 - `filter_raw.py`: Read the raw text files under the "raw" folder and filter these texts so that they can be used in the following ranking algorithm. It removes the stop words, meaningless numbers and some other useless words. Then, it lemmatizes and stems the words so that derivative words can be treated equally. The results are saved under the "corpus" folder. Each file under this folder represents the abstract of a PDF file from "slides" folder. For example, if it read a text file "raw/Lecture1.txt", there will be a filtered text file "corpus/Lecture1.txt" which contains the cleaned text data.
@@ -27,7 +29,7 @@ This project contains two main components. The first part is to identify hot top
 
 ## 2. Implementation
 
-### `pdf_download.py`
+### `get_slides_and_ranking_task/pdf_download.py`
 
 This module does the following:
 
@@ -41,7 +43,7 @@ Functions are:
 - `downPdf(root_url, prefix, list_a)`: Download all the PDF files in the root_url. The argument "prefix" is used to complete the pdf links. It varies with different course websites.
 - `getFile(url)`: Get the url file to the "slides" folder.
 
-### `pdf_miner.py`
+### `get_slides_and_ranking_task/pdf_miner.py`
 
 This module does the following:
 
@@ -53,7 +55,7 @@ Functions are:
 
 - `parse(filename)`: Extract text data from a PDF file and write it to a target text file (Different PDF files write into different text files).
 
-### `filter_raw.py`
+### `get_slides_and_ranking_task/filter_raw.py`
 
 This module does the following:
 
@@ -66,7 +68,7 @@ Functions are:
 - `get_raw_data(filepath)`: Read a raw text file and return a list of string. Each element in this list represents a line of data in the raw text file.
 - `pre_process(data, filename)`: First, use "re" (regular expression) to remove unwanted words. Second, use "spacy" to lemmatize words and "nltk.stem" to stem words. Finally, write these stemmed words to the target file under the "corpus" folder.
 
-### `bm25.py`
+### `get_slides_and_ranking_task/bm25.py`
 
 This module does the following:
 
@@ -80,7 +82,7 @@ Functions are:
 - `read_corpus(dir_path)`: Read all the documents under the dir_path and return a 2-dimensional list of strings. The first dimension represents each document and the second one contains the words included in each document.
 - `simulate_query_by_topics(topic_file)`: Generate queries with topics. In this implementation, it generates query with a word base 100. If we have keyword1 and keyword2 with distribution of 0.2 and 0.5. It will generate a query with 20 keyword1 and 50 keyword2. Node: each topic only reserves top several keywords. Their distributions may not add up to one, but it doesn't affect their relative size.
 
-### `doc_sim.py`:
+### `get_slides_and_ranking_task/doc_sim.py`:
 
 This module does the following:
 
@@ -121,6 +123,13 @@ cd CourseProject
 
 ============
 
+Next, copy the "topics.json" file to the "get_slides_and_ranking_task" so that it can do the following operations.
+
+```bash
+cp topics.json ../get_slides_and_ranking_task/topics.json
+cd ../get_slides_and_ranking_task
+```
+
 Download the slides using the `pdf_download.py`. But it may be slow. You can access the PDF slides with the link: [Download Slides](https://drive.google.com/file/d/1O0I2QJsoPQQTwgrtnuE_40PqFScTNRpv/view?usp=sharing). Then, unzip it to the "slides" folder.
 
 ```bash
@@ -143,7 +152,7 @@ python3 doc_sim.py
 
 ### Other Usage
 
-`main.py`: Users can run this script with python3. It provides 2 kinds of command. (Note: This two commands are available after filtering the raw text).
+`get_slides_and_ranking_task/main.py`: Users can run this script with python3. It provides 2 kinds of command. (Note: This two commands are available after filtering the raw text).
 
 ```bash
 python3 main.py
@@ -152,7 +161,7 @@ python3 main.py
 1. The first one is "latest". It will automatically run the results with existing topics in "topics.json".
 2. The second one is "query". Then it will ask you to type in a query and output 10 files that are most relevant to your query. This ranking list is based on BM25 algorithm because after our mannual evaluation, BM25 ranking performs better than cosine similarity ranking.
 
-`search.py`: Users can run this script with python3. It provides 2 kinds of command. (Note: This two commands are available after filtering the raw text).
+`get_slides_and_ranking_task/search.py`: Users can run this script with python3. It provides 2 kinds of command. (Note: This two commands are available after filtering the raw text).
 
 ```bash
 python3 search.py

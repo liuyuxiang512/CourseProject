@@ -113,7 +113,7 @@ if __name__ == "__main__":
                 print(filenames[i])
                 
         elif command_type == "latest":
-            topic_query = simulate_query_by_topics("topics_9.json")
+            topic_query = simulate_query_by_topics("topics.json")
             output_filename = "result/bm25.txt"
             with open(output_filename,'w') as f:
                 pass
