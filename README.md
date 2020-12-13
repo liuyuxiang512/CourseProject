@@ -1,6 +1,6 @@
 # CourseProject
 
-Please fork this repository and paste the github link of your fork on Microsoft CMT. Detailed instructions are on Coursera under Week 1: Course Project Overview.
+Final Project for CS410 at UIUC.
 
 # Project Proposal
 [Proposal.pdf](Proposal.pdf)
@@ -19,7 +19,7 @@ This project consists of two major tasks.
 The first one is to identify emerging topics in Twitter within computer science field, 
 and the second one is to recommend relevant slides related to the given topics.
 
-### 1.1 Identify Emerging Topics from Twitter
+### 1.1 Identify Topics from Twitter
 In this task, we first crawled 680k tweets from Twitter with query "computer science". 
 Then, to mine topics from these tweets, we firstly found the optimal number of topics w.r.t. coherence value 
 and trained the topic model using LDA algorithm with the optimal number of topics. 
@@ -47,7 +47,7 @@ Then, taking the above word distributions of different topics as input, we used 
 
 ## 2. Implementation
 
-### 2.1 Identify Emerging Topics
+### 2.1 Identify Topics
 
 #### Tweets Crawling
 This part serves to generate dataset containing recent tweets from Twitter. 
@@ -139,10 +139,15 @@ Funcrions are the similar to those in "bm25.py".
 
 ### Installation
 
-This software requires python 3.5+, while it also requires external libraries that can be obtained using:
+This software requires python 3.5+, while it also requires external libraries that can be obtained with:
 
 ```
 pip install -r requirements.txt
+```
+
+After you have installed `spacy` library, you also need to load `en` model in `spacy` through:
+
+```
 python -m spacy download en_core_web_sm
 ```
 
@@ -155,11 +160,52 @@ cd CourseProject
 
 ### Usage Example
 
-============
+#### Identify Topics
+Directory `Identify_Topics` is to identify emerging topics in Twitter.
 
-补充你的部分
+```
+cd Identify_Topics
+```
 
-============
+##### Crawling Tweets from Twitter
+
+You can crawl tweets with a Twitter developer account. 
+We have crawled 680k tweets as our dataset. 
+You can also jump this step since we have trained the model with our crawled data.
+
+```
+cd Crawling
+```
+
+1. Create a Twitter application via [https://developer.twitter.com/](https://developer.twitter.com/).
+2. Create a [https://apps.twitter.com/](Twitter app) in order to access Twitter's API.
+3. Find the authentication info in the "Keys and Access Tokens" tab of the app's properties, 
+including *consumer_key*, *consumer_secret*, *access_token*, and *access_token_secret*.
+4. Fill the authentication info `Crawling/Twitter_crawler.py`.
+
+Then you can keep crawling tweets and saving tweets into `Crawling/data/sorted_tweets.json` by
+
+```
+bash Twitter_crawler.sh
+```
+
+##### Find Optimal Number of Topics
+
+In this step, you can try different number of topics from 2 to 14, 
+and get corresponding coherence values. 
+A higher coherence value means a better model. 
+If you haven't pre-processed data, this step may take a long time
+
+```
+python topic_discovery.py --tune
+```
+
+#### Recommend Slides
+Directory `Recommend_Slides` is to recommend related slides based on topics.
+
+```
+cd Recommend_Slides
+```
 
 Download the slides using the `pdf_download.py`. But it may be slow. You can access the PDF slides with the link: [Download Slides](https://drive.google.com/file/d/1O0I2QJsoPQQTwgrtnuE_40PqFScTNRpv/view?usp=sharing). Then, unzip it to the "slides" folder.
 
