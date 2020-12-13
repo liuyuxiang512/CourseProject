@@ -6,7 +6,7 @@ Final Project for CS410 of UIUC.
 [Proposal.pdf](Proposal.pdf)
 
 # Project Progress Report
-[Progress_Report.pdf](CS410_Progress_Report.pdf)
+[Progress_Report.pdf](Progress_Report.pdf)
 
 # Project Presentation
 [Video Presentation](https://youtu.be/PQwRULNWgfc)
