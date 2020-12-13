@@ -323,7 +323,7 @@ if __name__ == "__main__":
         train_topic_model(num_topics=num_topics)
         print("Finished!")
 
-    if test:
+    if display:
         print("Saving Topics...")
         get_topics_distribution(output_file=output_file)
         print("Saving Figures")
