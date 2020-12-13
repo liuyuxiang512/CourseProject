@@ -15,11 +15,29 @@ Please fork this repository and paste the github link of your fork on Microsoft 
 
 ## 1. Overview
 
-This project contains two main components. The first part is to identify hot topics in computer science with recent tweets from Twitter. The second one is to find relevant slides of each topic and show the top 10 slides.
+This project consists of two major tasks. 
+The first one is to identify emerging topics in Twitter within computer science field, 
+and the second one is to recommend relevant slides related to the given topics.
 
-### 1.2 Scrawl Slides And Rank Them With Each Topic
+### 1.1 Identify Emerging Topics from Twitter
+In this task, we first crawled 680k tweets from Twitter with query "computer science". 
+Then, to mine topics from these tweets, we firstly found the optimal number of topics w.r.t. coherence value 
+and trained the topic model using LDA algorithm with the optimal number of topics. 
+Besides, we visualized topics with word cloud by analyzing hashtags.
+The output of this part is word distributions of different topics. 
+All related files are in `Identify_Topics` directory.
 
-This part is under the folder "get_slides_and_ranking_task".
+- `data`: Store raw data (crawled tweets), processed data, stopwords, and pictures of topics.
+- `model`: Store pre-trained LDA model files.
+- `topic_discovery.py`: 
+Extract topics from crawled tweets, 
+evaluate models with different number of topics to find the optimal, 
+draw pictures for topics with word cloud,
+predict emerging topics based on pre-trained model.
+
+### 1.2 Recommend Slides for Topics
+In this task, we first crawled 100+ course slides in UIUC. 
+Then, taking the above word distributions of different topics as input, we used BM25 to find relevant slides.
 
 - `pdf_download.py`: Scrapes slides from four fixed UIUC course websites which are CS225, CS240, CS425 and CS447. It will download all the PDF documents to a local directory "slides".
 - `pdf_miner.py`: Read the slides under the "slides" folder and use pdfminer tool to extract text from the slides. Then, write the raw text to a "txt" file under the folder "raw". For example, if it read a PDF file "slides/Lecture1.pdf", there will be a text file "raw/Lecture1.txt" which contains the text data of the original PDF file.
@@ -29,7 +47,32 @@ This part is under the folder "get_slides_and_ranking_task".
 
 ## 2. Implementation
 
-### `get_slides_and_ranking_task/pdf_download.py`
+### 2.1 Identify Emerging Topics
+
+#### Tweets Crawling
+This part serves to generate dataset containing recent tweets from Twitter. 
+Due to the rate limit of Twitter, we can only crawl a small amount tweets every 15 min.
+Therefore, we implemented a crawler which would crawl tweets automatically, which are in `Crawling` directory.
+
+- `Twitter_crawler.py`: Crawl recent tweets that don't overlap with pre-crawled tweets.
+- `utils.py`: Sort crawled tweets in terms of create time, which aims to optimize crawling and saving process.
+- `Twitter_crawler.sh`: Auto-crawling bash file that runs `Twitter_crawler.py` and `utils.py` repeatedly every 15 min.
+
+#### Topic Mining
+This part is to generate topics with crawled tweets. Here we applied LDA algorithm for topic mining.
+All related files are in `TopiccDiscovery` directory. Implementation of `TopicDiscovery.py` is as follows: 
+
+- **Preprocess**: For each tweet, we perform lower; remove username, hashtag, url, number, punctuation, special character, and short word; 
+tokenization; remove stopwords; lemmatization; and stemming. Then, we save processed data in `data/pre-processed.pkl` for training.
+- **Find optimal number of topics**: We applied LDA model with different number of topics from 2 to 14, and found that 9 is the optimal.
+- **Training**: We set number of topics as 9, trained an LDA model on 662k processed tweets, and saved model files in `model` directory.
+- **Saving Topics**: We loaded pre-trained files, saved word distributions for topics, and drew word cloud figures by analyzing hashtags for all topics.
+- **Predict**: With pre-trained model, we crawl latest tweets about computer science and make prediction to find out emerging top topics among all topics. 
+Then we use these new tweets to update model.
+
+### 2.2 Recommend Slides
+
+#### `pdf_download.py`
 
 This module does the following:
 
@@ -43,7 +86,7 @@ Functions are:
 - `downPdf(root_url, prefix, list_a)`: Download all the PDF files in the root_url. The argument "prefix" is used to complete the pdf links. It varies with different course websites.
 - `getFile(url)`: Get the url file to the "slides" folder.
 
-### `get_slides_and_ranking_task/pdf_miner.py`
+#### `pdf_miner.py`
 
 This module does the following:
 
@@ -55,7 +98,7 @@ Functions are:
 
 - `parse(filename)`: Extract text data from a PDF file and write it to a target text file (Different PDF files write into different text files).
 
-### `get_slides_and_ranking_task/filter_raw.py`
+#### `filter_raw.py`
 
 This module does the following:
 
@@ -68,7 +111,7 @@ Functions are:
 - `get_raw_data(filepath)`: Read a raw text file and return a list of string. Each element in this list represents a line of data in the raw text file.
 - `pre_process(data, filename)`: First, use "re" (regular expression) to remove unwanted words. Second, use "spacy" to lemmatize words and "nltk.stem" to stem words. Finally, write these stemmed words to the target file under the "corpus" folder.
 
-### `get_slides_and_ranking_task/bm25.py`
+#### `bm25.py`
 
 This module does the following:
 
@@ -82,7 +125,7 @@ Functions are:
 - `read_corpus(dir_path)`: Read all the documents under the dir_path and return a 2-dimensional list of strings. The first dimension represents each document and the second one contains the words included in each document.
 - `simulate_query_by_topics(topic_file)`: Generate queries with topics. In this implementation, it generates query with a word base 100. If we have keyword1 and keyword2 with distribution of 0.2 and 0.5. It will generate a query with 20 keyword1 and 50 keyword2. Node: each topic only reserves top several keywords. Their distributions may not add up to one, but it doesn't affect their relative size.
 
-### `get_slides_and_ranking_task/doc_sim.py`:
+#### `doc_sim.py`:
 
 This module does the following:
 
@@ -96,21 +139,16 @@ Funcrions are the similar to those in "bm25.py".
 
 ### Installation
 
-This package requires Python 3.0+.
-It also requires the following external libraries that can be obtained using:
+This software requires python 3.5+, while it also requires external libraries that can be obtained using:
 
-```bash
-pip install bs4
-pip install spacy
-pip install gensim
-pip install pdfminer
-pip install pytextrank
+```
+pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
 Clone the repository from github:
 
-```bash
+```
 git clone https://github.com/liuyuxiang512/CourseProject
 cd CourseProject
 ```
@@ -122,13 +160,6 @@ cd CourseProject
 补充你的部分
 
 ============
-
-Next, copy the "topics.json" file to the "get_slides_and_ranking_task" so that it can do the following operations.
-
-```bash
-cp topics.json ../get_slides_and_ranking_task/topics.json
-cd ../get_slides_and_ranking_task
-```
 
 Download the slides using the `pdf_download.py`. But it may be slow. You can access the PDF slides with the link: [Download Slides](https://drive.google.com/file/d/1O0I2QJsoPQQTwgrtnuE_40PqFScTNRpv/view?usp=sharing). Then, unzip it to the "slides" folder.
 
@@ -152,7 +183,7 @@ python3 doc_sim.py
 
 ### Other Usage
 
-`get_slides_and_ranking_task/main.py`: Users can run this script with python3. It provides 2 kinds of command. (Note: This two commands are available after filtering the raw text).
+`main.py`: Users can run this script with python3. It provides 2 kinds of command. (Note: This two commands are available after filtering the raw text).
 
 ```bash
 python3 main.py
@@ -161,7 +192,7 @@ python3 main.py
 1. The first one is "latest". It will automatically run the results with existing topics in "topics.json".
 2. The second one is "query". Then it will ask you to type in a query and output 10 files that are most relevant to your query. This ranking list is based on BM25 algorithm because after our mannual evaluation, BM25 ranking performs better than cosine similarity ranking.
 
-`get_slides_and_ranking_task/search.py`: Users can run this script with python3. It provides 2 kinds of command. (Note: This two commands are available after filtering the raw text).
+`search.py`: Users can run this script with python3. It provides 2 kinds of command. (Note: This two commands are available after filtering the raw text).
 
 ```bash
 python3 search.py
