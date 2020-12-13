@@ -232,7 +232,7 @@ def get_topic_description(input_file, field):
             topic_hashtags[topic].append(hashtag)
 
     # draw wordcloud
-    wc = WordCloud()
+    wc = WordCloud(background_color=(255, 255, 255))
     for topic in topic_hashtags.keys():
         text = " ".join(topic_hashtags[topic])
         wc.generate(text)

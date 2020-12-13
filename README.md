@@ -304,6 +304,32 @@ To see what these topics are, you may go to
 `data/topic_desc_fig/` directory and find corresponding word cloud!
 
 
+#### Command Line Usage of `topic_discovery.py`
+
+```
+> python topic_discovery.py -h
+usage: topic_discovery.py [-h] [-i INPUT_FILE] [-n NUM_TOPICS] [-f FIELD] [-o OUTPUT_FILE] [--train]
+                          [--display] [--tune] [--predict]
+
+Identify In-demanding Skills
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT_FILE, --input_file INPUT_FILE
+                        input file contains tweets crawled from Twitter
+  -n NUM_TOPICS, --num_topics NUM_TOPICS
+                        number of topics.
+  -f FIELD, --field FIELD
+                        field of subject to mine (computer science)
+  -o OUTPUT_FILE, --output_file OUTPUT_FILE
+                        output file contains term distribution of 'num_topics'.
+  --train               preprocess and train
+  --display             save topics and draw pictures
+  --tune                find the optimal number of topics
+  --predict             predict emerging topics with trained model
+```
+
+
 #### Recommend Slides
 Directory `Recommend_Slides` is to recommend related slides based on topics.
 
