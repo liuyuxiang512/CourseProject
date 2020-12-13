@@ -76,7 +76,7 @@ if __name__ == "__main__":
     
     index = gensim.similarities.SparseMatrixSimilarity(tf_idf[corpus], num_features=len(dictionary))
     
-    topic_query = simulate_query_by_topics("topics.json")
+    topic_query = simulate_query_by_topics("../Identify_Topics/topics.json")
     
     x = 0
     

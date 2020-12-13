@@ -71,7 +71,7 @@ if __name__ == "__main__":
     # print(len(filenames))
     bm25Model = bm25.BM25(corpus)
     
-    topic_query = simulate_query_by_topics("topics.json")
+    topic_query = simulate_query_by_topics("../Identify_Topics/topics.json")
     
     with open(output_filename,'w') as f:
         pass
