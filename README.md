@@ -184,7 +184,7 @@ Directory `Identify_Topics/` serves to identify emerging topics in Twitter.
 cd Identify_Topics
 ```
 
-##### Crawling Tweets from Twitter
+##### Crawl Tweets from Twitter
 
 You could jump this step by downloading our crawled data [sorted_tweets.json](https://drive.google.com/file/d/1tGOrF_OCt_4XRY9G-8JoTAM_cQLGoeh_/view?usp=sharing), 
 which contains 680k tweets, and save the file into `data/` directory.
@@ -242,7 +242,7 @@ The optimal number of topics is: 10
 
 Therefore, the optimal number of topics is 10, and we will use 10 for our LDA model in formal training.
 
-##### Training
+##### Train
 
 With 10 as number of topics, you can now train an LDA model by running
 
@@ -253,7 +253,7 @@ python topic_discovery.py --train
 This step will take a long time, but you can go ahead and directly use our 
 pre-trained model in `Identify_Topics/model/` directory for subsequent steps.
 
-##### Displaying
+##### Display
 
 This step is to use pre-trained model to get topics and draw word cloud for these topics.
 
@@ -308,21 +308,20 @@ To see what these topics are, you may go to
 
 ```
 > python topic_discovery.py -h
-usage: topic_discovery.py [-h] [-i INPUT_FILE] [-n NUM_TOPICS] [-f FIELD] [-o OUTPUT_FILE] [--train]
-                          [--display] [--tune] [--predict]
+usage: topic_discovery.py [-h] [-i INPUT_FILE] [-n NUM_TOPICS] [-f FIELD] [-o OUTPUT_FILE] [--train] [--display] [--tune] [--predict]
 
 Identify In-demanding Skills
 
 optional arguments:
   -h, --help            show this help message and exit
   -i INPUT_FILE, --input_file INPUT_FILE
-                        input file contains tweets crawled from Twitter
+                        input file contains tweets crawled from Twitter - (default: data/sorted_tweets.json).
   -n NUM_TOPICS, --num_topics NUM_TOPICS
-                        number of topics.
+                        number of topics - (default: 10).
   -f FIELD, --field FIELD
-                        field of subject to mine (computer science)
+                        field of subject to mine - (default: computer science)
   -o OUTPUT_FILE, --output_file OUTPUT_FILE
-                        output file contains term distribution of 'num_topics'.
+                        output file contains term distribution of topics - (default: topics.json).
   --train               preprocess and train
   --display             save topics and draw pictures
   --tune                find the optimal number of topics

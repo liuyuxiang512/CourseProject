@@ -270,13 +270,13 @@ def parse_args():
     # parse input
     parser = argparse.ArgumentParser(description='Identify In-demanding Skills')
     parser.add_argument('-i', '--input_file', type=str, default='data/sorted_tweets.json',
-                        help='input file contains tweets crawled from Twitter')
+                        help='input file contains tweets crawled from Twitter - (default: data/sorted_tweets.json).')
     parser.add_argument('-n', '--num_topics', type=int, default=10,
-                        help='number of topics.')
+                        help='number of topics - (default: 10).')
     parser.add_argument('-f', '--field', type=str, default='computer science',
-                        help='field of subject to mine (computer science)')
+                        help='field of subject to mine - (default: computer science)')
     parser.add_argument('-o', '--output_file', type=str, default='topics.json',
-                        help='output file contains term distribution of \'num_topics\'.')
+                        help='output file contains term distribution of topics - (default: topics.json).')
     parser.add_argument('--train', default=False, action="store_true",
                         help='preprocess and train')
     parser.add_argument('--display', default=False, action="store_true",
