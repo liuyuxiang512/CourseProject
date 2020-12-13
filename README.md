@@ -1,6 +1,6 @@
 # CourseProject
 
-Final Project for CS410 at UIUC.
+Final Project for CS410 of UIUC.
 
 # Project Proposal
 [Proposal.pdf](Proposal.pdf)
@@ -17,28 +17,34 @@ Final Project for CS410 at UIUC.
 
 This project consists of two major tasks. 
 The first one is to identify emerging topics in Twitter within computer science field, 
-and the second one is to recommend relevant slides related to the given topics.
+and the second one is to recommend relevant slides of the given topics.
 
-### 1.1 Identify Topics from Twitter
-In this task, we first crawled 680k tweets from Twitter with query "computer science". 
-Then, to mine topics from these tweets, we firstly found the optimal number of topics w.r.t. coherence value 
-and trained the topic model using LDA algorithm with the optimal number of topics. 
-Besides, we visualized topics with word cloud by analyzing hashtags.
-The output of this part is word distributions of different topics. 
-All related files are in `Identify_Topics` directory.
+### 1.1 Identify Emerging Topics
+In this task, we first crawled 680k tweets from Twitter with query "computer science", 
+which limited our scale of topics.
+Then, in order to mine topics from these tweets, we found the optimal number of topics w.r.t. 
+coherence value and trained the LDA topic model with the optimal number of topics. 
+Finally, we visualized topics with word cloud by analyzing hashtags.
+Besides, we support identifying emerging topics by crawling the latest tweets 
+and predicting their topics with pre-trained LDA model, 
+while these newly crawled data is used to update our LDA model.
 
-- `data`: Store raw data (crawled tweets), processed data, stopwords, and pictures of topics.
+All related files are in `Identify_Topics/` directory.
+- `Crawling/`: Keep crawling tweets and form training data.
+- `data/`: Store raw data ([`sorted_tweets.json`](https://drive.google.com/file/d/1tGOrF_OCt_4XRY9G-8JoTAM_cQLGoeh_/view?usp=sharing)), processed data (`pre-processed.pkl`), stopwords (`stopwords.txt`), and pictures of topics (`topic_desc_fig/`).
 - `model`: Store pre-trained LDA model files.
 - `topic_discovery.py`: 
 Extract topics from crawled tweets, 
 evaluate models with different number of topics to find the optimal, 
-draw pictures for topics with word cloud,
-predict emerging topics based on pre-trained model.
+get topics and draw pictures for them with word cloud,
+and predict emerging topics based on pre-trained model.
+- `topics.json`: Word distributions of topics, which will feed into next part.
 
 ### 1.2 Recommend Slides for Topics
 In this task, we first crawled 100+ course slides in UIUC. 
 Then, taking the above word distributions of different topics as input, we used BM25 to find relevant slides.
 
+All related files are in `Recommend_Slides/` directory.
 - `pdf_download.py`: Scrapes slides from four fixed UIUC course websites which are CS225, CS240, CS425 and CS447. It will download all the PDF documents to a local directory "slides".
 - `pdf_miner.py`: Read the slides under the "slides" folder and use pdfminer tool to extract text from the slides. Then, write the raw text to a "txt" file under the folder "raw". For example, if it read a PDF file "slides/Lecture1.pdf", there will be a text file "raw/Lecture1.txt" which contains the text data of the original PDF file.
 - `filter_raw.py`: Read the raw text files under the "raw" folder and filter these texts so that they can be used in the following ranking algorithm. It removes the stop words, meaningless numbers and some other useless words. Then, it lemmatizes and stems the words so that derivative words can be treated equally. The results are saved under the "corpus" folder. Each file under this folder represents the abstract of a PDF file from "slides" folder. For example, if it read a text file "raw/Lecture1.txt", there will be a filtered text file "corpus/Lecture1.txt" which contains the cleaned text data.
@@ -47,12 +53,12 @@ Then, taking the above word distributions of different topics as input, we used 
 
 ## 2. Implementation
 
-### 2.1 Identify Topics
+### 2.1 Identify Emerging Topics
 
 #### Tweets Crawling
 This part serves to generate dataset containing recent tweets from Twitter. 
-Due to the rate limit of Twitter, we can only crawl a small amount tweets every 15 min.
-Therefore, we implemented a crawler which would crawl tweets automatically, which are in `Crawling` directory.
+Due to the rate limit of Twitter, we can only crawl a small amount of tweets every 15 min.
+Therefore, in `Crawling/` directory, we implemented a crawler which can crawl tweets automatically.
 
 - `Twitter_crawler.py`: Crawl recent tweets that don't overlap with pre-crawled tweets.
 - `utils.py`: Sort crawled tweets in terms of create time, which aims to optimize crawling and saving process.

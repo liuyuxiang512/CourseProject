@@ -27,13 +27,13 @@ def process_status(status):
                    "contributors": status.contributors, "is_quote_status": status.is_quote_status,
                    "retweet_count": status.retweet_count, "favorite_count": status.favorite_count,
                    "favorited": status.favorited, "retweeted": status.retweeted, "lang": status.lang}
-    with open("data/sorted_tweets.json", "r") as file2read:
+    with open("../data/sorted_tweets.json", "r") as file2read:
         file2read = file2read.readlines()
         for line in file2read:
             line = json.loads(line)
             if id == line["id"]:
                 exit()
-    with open("data/tweets.json", "a") as file2write:
+    with open("../data/tweets.json", "a") as file2write:
         status_str = json.dumps(status_dict)
         file2write.write(status_str + '\n')
 
