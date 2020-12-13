@@ -66,15 +66,21 @@ Therefore, in `Crawling/` directory, we implemented a crawler which can crawl tw
 
 #### Topic Mining
 This part is to generate topics with crawled tweets. Here we applied LDA algorithm for topic mining.
-All related files are in `TopiccDiscovery` directory. Implementation of `TopicDiscovery.py` is as follows: 
+All related files are in `TopiccDiscovery/` directory. Implementation of `topic_discovery.py` is as follows: 
 
-- **Preprocess**: For each tweet, we perform lower; remove username, hashtag, url, number, punctuation, special character, and short word; 
-tokenization; remove stopwords; lemmatization; and stemming. Then, we save processed data in `data/pre-processed.pkl` for training.
-- **Find optimal number of topics**: We applied LDA model with different number of topics from 2 to 14, and found that 10 is the optimal.
-- **Training**: We set number of topics as 10, trained an LDA model on 662k processed tweets, and saved model files in `model` directory.
-- **Saving Topics**: We loaded pre-trained files, saved word distributions for topics, and drew word cloud figures by analyzing hashtags for all topics.
-- **Predict**: With pre-trained model, we crawl latest tweets about computer science and make prediction to find out emerging top topics among all topics. 
-Then we use these new tweets to update model.
+- **Preprocess**: For each tweet, we perform 1) lower; 2) remove username, 
+hashtag, url, number, punctuation, special character, and short word; 3)
+tokenization; 4) remove stopwords; 5) lemmatization; and 6) stemming. 
+Then, we save processed data `data/pre-processed.pkl` for training.
+- **Find optimal number of topics**: We applied LDA model with different 
+numbers of topics from 2 to 14, and found that 10 is the optimal.
+- **Training**: We set number of topics as 10, trained an LDA model on 
+662k processed tweets, and saved model files in `model/` directory.
+- **Saving Topics**: We loaded pre-trained files, saved word distributions for 
+topics, and drew word cloud figures by analyzing hashtags for all topics.
+- **Predict**: With pre-trained model, we can crawl latest tweets about computer 
+science and make predictions to find out emerging topics among all topics. 
+Meanwhile, we use these newly crawled tweets to update the LDA model.
 
 ### 2.2 Recommend Slides
 
@@ -145,7 +151,8 @@ Funcrions are the similar to those in "bm25.py".
 
 ### Installation
 
-This software requires python 3.5+, while it also requires external libraries that can be obtained with:
+This software requires python 3.5+, 
+and it also requires external libraries that can be installed by:
 
 ```
 pip install -r requirements.txt
@@ -157,17 +164,21 @@ After you have installed `spacy` library, you also need to load `en` model in `s
 python -m spacy download en_core_web_sm
 ```
 
-Clone the repository from github:
+Now you have all the necessary packages! Before any later steps, clone this repository:
 
 ```
 git clone https://github.com/liuyuxiang512/CourseProject
-cd CourseProject
 ```
 
 ### Usage Example
 
-#### Identify Topics
-Directory `Identify_Topics` is to identify emerging topics in Twitter.
+```
+cd CourseProject
+```
+
+#### Identify Emerging Topics
+
+Directory `Identify_Topics/` serves to identify emerging topics in Twitter.
 
 ```
 cd Identify_Topics
@@ -175,38 +186,40 @@ cd Identify_Topics
 
 ##### Crawling Tweets from Twitter
 
-You can crawl tweets with a Twitter developer account. 
-We have crawled 680k tweets as our dataset. 
-You can also jump this step since we have trained the model with our crawled data.
+You could jump this step by downloading our crawled data [sorted_tweets.json](https://drive.google.com/file/d/1tGOrF_OCt_4XRY9G-8JoTAM_cQLGoeh_/view?usp=sharing), 
+which contains 680k tweets, and save the file into `data/` directory.
+
+In order to crawl tweets, 
+you first need a Twitter developer account. Then: 
+
+1. Create a Twitter application via [https://developer.twitter.com/](https://developer.twitter.com/).
+2. Create a [Twitter app](https://apps.twitter.com/) to access Twitter's API.
+3. Find the authentication info in the "Keys and Access Tokens" tab of the app's properties, 
+including *consumer_key*, *consumer_secret*, *access_token*, and *access_token_secret*.
+4. Fill the authentication into `authentication.txt` in four lines.
+
+Then, you can keep crawling tweets by
 
 ```
 cd Crawling
-```
-
-1. Create a Twitter application via [https://developer.twitter.com/](https://developer.twitter.com/).
-2. Create a [https://apps.twitter.com/](Twitter app) in order to access Twitter's API.
-3. Find the authentication info in the "Keys and Access Tokens" tab of the app's properties, 
-including *consumer_key*, *consumer_secret*, *access_token*, and *access_token_secret*.
-4. Fill the authentication info `Crawling/Twitter_crawler.py`.
-
-Then you can keep crawling tweets and saving tweets into `Crawling/data/sorted_tweets.json` by
-
-```
 bash Twitter_crawler.sh
 ```
 
 ##### Find Optimal Number of Topics
 
-In this step, you can try different number of topics from 2 to 14, 
+In this step, you can try LDA model with different numbers of topics from 2 to 14, 
 and get corresponding coherence values. 
 A higher coherence value means a better model. 
-You will use our processed data `Identify_Topics/data/pre-processed.pkl` in this step.
+If you don't want to use our processed data `Identify_Topics/data/pre-processed.pkl`, 
+you may first remove it and continue, but it will take some time.
+
+To find out the optimal number of topics, run
 
 ```
 python topic_discovery.py --tune
 ```
 
-This step takes minutes, and you will get 
+Then you will get 
 
 ```
 Tuning...
@@ -227,48 +240,50 @@ Number of Topics: 14 --- Coherence Value: 0.5433632323040761
 The optimal number of topics is: 10
 ```
 
-Therefore, the optimal number of topics is 10, and we will use 10 for our model.
+Therefore, the optimal number of topics is 10, and we will use 10 for our LDA model in formal training.
 
 ##### Training
 
-With number of topics as 10, you can train an LDA model by
+With 10 as number of topics, you can now train an LDA model by running
 
 ```
 python topic_discovery.py --train
 ```
 
-This step will take a long time, and you can directly use our 
-pre-trained model in `Identify_Topics/model/*` directory.
+This step will take a long time, but you can go ahead and directly use our 
+pre-trained model in `Identify_Topics/model/` directory for subsequent steps.
 
 ##### Displaying
 
-This step is to use trained model to get topics and draw word cloud of these topics.
+This step is to use pre-trained model to get topics and draw word cloud for these topics.
 
 ```
 python topic_discovery.py --display
 ```
 
-Or you can see what we have got: `topics.json` and 
-word cloud figures of topics in `Identify_Topics/data/topic_desc_fig`.
+Or you can see what we have got after this step: word distributions of topics 
+`Identify_Topics/topics.json` and word cloud figures of topics in 
+`Identify_Topics/data/topic_desc_fig/`.
 
 ##### Predict
 
-After the previous steps, you successfully get processed data, 
-trained model files, and topic files. 
+After the previous steps, you have successfully obtained processed data 
+(`Identify_Topics/data/pre-processed.pkl`), word distributions of topics 
+(`Identify_Topics/topics.json`), and word cloud pictures of topics in
+`Identify_Topics/data/topic_desc_fig/`.
 This step is a further extension of our software.
-You need a Twitter developer account to crawl latest tweets about computer science.
-Please refer to how to get authentication info in "Crawling Tweets from Twitter" above.
-You need to fill such info into `crawl_tweets` function in `topic_discovery.py` file.
+You still need a Twitter developer account to crawl latest tweets.
+Please refer to how to get authentication info in the above "Crawling Tweets from Twitter" section.
 You can always find out emerging topics in Twitter by running
 
 ```
 python topic_discovery.py --predict
 ```
 
-It will predict topics for latest tweets and figure our popular ones.
-Besides, it also use newly crawled data to update the model.
+It will crawl latest tweets, predict topics for then and figure out popular ones.
+Meanwhile, it also uses these newly crawled data to update the LDA model.
 
-Using our authentication info, we get the following results on Dec.13.
+We got the following results on Dec.13th:
 
 ```
 Emerging Topics ID (Ordered): 8 1 7 6 5

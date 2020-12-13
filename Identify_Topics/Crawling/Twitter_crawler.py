@@ -2,10 +2,12 @@ import tweepy
 import json
 
 # Twitter keys
-consumer_key = "Bi2HW8V30V9SebqwjW36mGwVv"
-consumer_secret = "POdkCtnk4bUv9bCNIJBx2sFcKz99I5OGYE1W3Q6RSRYBYQ8yRA"
-access_token = "1000446341196238848-QTvbjrKCX5w65AOnQQW7WqbhKUNNqX"
-access_token_secret = "8He7zKjmCm9KsX21Cc8LXrWpl3D4ppiUuVdzpL3NNhfFY"
+with open("../../authentication.txt", "r") as file2read:
+    info = file2read.read().strip().split("\n")
+consumer_key = info[0]
+consumer_secret = info[1]
+access_token = info[2]
+access_token_secret = info[3]
 
 # Authentication
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
