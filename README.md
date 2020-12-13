@@ -6,7 +6,7 @@ Please fork this repository and paste the github link of your fork on Microsoft 
 [Proposal.pdf](Proposal.pdf)
 
 # Project Progress Report
-[CS410_Progress Report.pdf](CS410_Progress Report.pdf)
+[CS410_Progress_Report.pdf](CS410_Progress Report.pdf)
 
 # Project Presentation
 [Video Presentation](https://youtu.be/PQwRULNWgfc)
