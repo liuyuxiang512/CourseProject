@@ -265,8 +265,11 @@ Besides, it also use newly crawled data to update the model.
 Using our authentication info, we get the following results on Dec.13.
 
 ```
-
+Emerging Topics ID (Ordered): 8 1 7 6 5
 ```
+
+To see what these topics are, you may go to 
+`data/topic_desc_fig/` directory and find corresponding word cloud!
 
 
 #### Recommend Slides
