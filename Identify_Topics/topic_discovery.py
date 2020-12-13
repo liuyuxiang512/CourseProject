@@ -43,7 +43,7 @@ def crawl_tweets(field):
 
 def optimal_topic_model():
     processed_data = pd.read_pickle('data/pre-processed.pkl')
-    texts = processed_data.iloc[-10001:]["text"]
+    texts = processed_data.iloc[:10000]["text"]
     texts = [text.split() for text in texts]
 
     # Create dictionary and corpus
@@ -269,7 +269,7 @@ def parse_args():
                         help='number of topics.')
     parser.add_argument('-f', '--field', type=str, default='computer science',
                         help='field of subject to mine (computer science)')
-    parser.add_argument('-o', '--output_file', type=str, default='topics.json',
+    parser.add_argument('-o', '--output_file', type=str, default='../Recommend_Slides/topics.json',
                         help='output file contains term distribution of \'num_topics\'.')
     parser.add_argument('--train', default=False, action="store_true",
                         help='preprocess and train')
