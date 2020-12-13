@@ -263,7 +263,18 @@ python topic_discovery.py --display
 
 Or you can see what we have got after this step: word distributions of topics 
 `Identify_Topics/topics.json` and word cloud figures of topics in 
-`Identify_Topics/data/topic_desc_fig/`.
+`Identify_Topics/data/topic_desc_fig/`. The following are word cloud figures for 10 topics.
+
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_0.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_1.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_2.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_3.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_4.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_5.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_6.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_7.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_8.png)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_9.png)
 
 ##### Predict
 
@@ -291,13 +302,6 @@ Emerging Topics ID (Ordered): 8 6 0 4 1 3
 
 To see what these topics are, you may go to 
 `data/topic_desc_fig/` directory and find corresponding word cloud!
-
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_8.png)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_6.png)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_0.png)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_4.png)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_1.png)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_3.png)
 
 
 #### Recommend Slides
