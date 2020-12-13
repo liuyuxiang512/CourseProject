@@ -50,8 +50,10 @@ def optimal_topic_model():
     id2word = corpora.Dictionary(texts)
     corpus = [id2word.doc2bow(text) for text in texts]
 
-    # optimal number of topics: 9
+    # optimal number of topics: 10
     coherence_values = []
+    best_c_v = 0
+    best_num_topics = 0
     for num_topics in range(2, 15):
         model = LdaModel(corpus=corpus,
                          id2word=id2word,
@@ -65,11 +67,13 @@ def optimal_topic_model():
         coherencemodel = CoherenceModel(model=model, texts=texts, dictionary=id2word, coherence='c_v')
         coherence = coherencemodel.get_coherence()
         coherence_values.append(coherence)
+        if coherence > best_c_v:
+            best_c_v = coherence
+            best_num_topics = num_topics
         print("Number of Topics: " + str(num_topics) + " --- Coherence Value: " + str(coherence))
 
-    with open("data/coherence_values.csv", "a", newline="") as file2write:
-        csv_writer = csv.writer(file2write)
-        csv_writer.writerow(coherence_values)
+    print("...")
+    print("The optimal number of topics is: " + str(best_num_topics))
 
 
 def predict_topics(raw_data, field):
@@ -265,15 +269,15 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Identify In-demanding Skills')
     parser.add_argument('-i', '--input_file', type=str, default='data/sorted_tweets.json',
                         help='input file contains tweets crawled from Twitter')
-    parser.add_argument('-n', '--num_topics', type=int, default=9,
+    parser.add_argument('-n', '--num_topics', type=int, default=10,
                         help='number of topics.')
     parser.add_argument('-f', '--field', type=str, default='computer science',
                         help='field of subject to mine (computer science)')
-    parser.add_argument('-o', '--output_file', type=str, default='../Recommend_Slides/topics.json',
+    parser.add_argument('-o', '--output_file', type=str, default='topics.json',
                         help='output file contains term distribution of \'num_topics\'.')
     parser.add_argument('--train', default=False, action="store_true",
                         help='preprocess and train')
-    parser.add_argument('--test', default=False, action="store_true",
+    parser.add_argument('--display', default=False, action="store_true",
                         help='save topics and draw pictures')
     parser.add_argument('--tune', default=False, action="store_true",
                         help='find the optimal number of topics')
@@ -291,9 +295,9 @@ if __name__ == "__main__":
     field = args.field
     output_file = args.output_file
 
-    train = args.train
-    test = args.test
     tune = args.tune
+    train = args.train
+    display = args.display
     predict = args.predict
 
     if tune:
@@ -305,7 +309,6 @@ if __name__ == "__main__":
             processed_data = pre_process(raw_data=raw_data, field=field, train=train)
         print("Tuning...")
         optimal_topic_model()
-        print("We found that 9 is the optimal number of topics, check 'data/coherence_values.csv' for details")
 
     if train:
         try:

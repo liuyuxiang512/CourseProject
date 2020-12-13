@@ -64,8 +64,8 @@ All related files are in `TopiccDiscovery` directory. Implementation of `TopicDi
 
 - **Preprocess**: For each tweet, we perform lower; remove username, hashtag, url, number, punctuation, special character, and short word; 
 tokenization; remove stopwords; lemmatization; and stemming. Then, we save processed data in `data/pre-processed.pkl` for training.
-- **Find optimal number of topics**: We applied LDA model with different number of topics from 2 to 14, and found that 9 is the optimal.
-- **Training**: We set number of topics as 9, trained an LDA model on 662k processed tweets, and saved model files in `model` directory.
+- **Find optimal number of topics**: We applied LDA model with different number of topics from 2 to 14, and found that 10 is the optimal.
+- **Training**: We set number of topics as 10, trained an LDA model on 662k processed tweets, and saved model files in `model` directory.
 - **Saving Topics**: We loaded pre-trained files, saved word distributions for topics, and drew word cloud figures by analyzing hashtags for all topics.
 - **Predict**: With pre-trained model, we crawl latest tweets about computer science and make prediction to find out emerging top topics among all topics. 
 Then we use these new tweets to update model.
@@ -194,11 +194,80 @@ bash Twitter_crawler.sh
 In this step, you can try different number of topics from 2 to 14, 
 and get corresponding coherence values. 
 A higher coherence value means a better model. 
-If you haven't pre-processed data, this step may take a long time
+You will use our processed data `Identify_Topics/data/pre-processed.pkl` in this step.
 
 ```
 python topic_discovery.py --tune
 ```
+
+This step takes minutes, and you will get 
+
+```
+Tuning...
+Number of Topics: 2 --- Coherence Value: 0.49589240555472486
+Number of Topics: 3 --- Coherence Value: 0.4752864500035534
+Number of Topics: 4 --- Coherence Value: 0.4844109302488787
+Number of Topics: 5 --- Coherence Value: 0.5426149238108859
+Number of Topics: 6 --- Coherence Value: 0.5708485237453553
+Number of Topics: 7 --- Coherence Value: 0.5514423515877226
+Number of Topics: 8 --- Coherence Value: 0.5778541035204716
+Number of Topics: 9 --- Coherence Value: 0.566857492981066
+Number of Topics: 10 --- Coherence Value: 0.5808911042666589
+Number of Topics: 11 --- Coherence Value: 0.5561191556402437
+Number of Topics: 12 --- Coherence Value: 0.5699566981479943
+Number of Topics: 13 --- Coherence Value: 0.5522769193550581
+Number of Topics: 14 --- Coherence Value: 0.5433632323040761
+...
+The optimal number of topics is: 10
+```
+
+Therefore, the optimal number of topics is 10, and we will use 10 for our model.
+
+##### Training
+
+With number of topics as 10, you can train an LDA model by
+
+```
+python topic_discovery.py --train
+```
+
+This step will take a long time, and you can directly use our 
+pre-trained model in `Identify_Topics/model/*` directory.
+
+##### Displaying
+
+This step is to use trained model to get topics and draw word cloud of these topics.
+
+```
+python topic_discovery.py --display
+```
+
+Or you can see what we have got: `topics.json` and 
+word cloud figures of topics in `Identify_Topics/data/topic_desc_fig`.
+
+##### Predict
+
+After the previous steps, you successfully get processed data, 
+trained model files, and topic files. 
+This step is a further extension of our software.
+You need a Twitter developer account to crawl latest tweets about computer science.
+Please refer to how to get authentication info in "Crawling Tweets from Twitter" above.
+You need to fill such info into `crawl_tweets` function in `topic_discovery.py` file.
+You can always find out emerging topics in Twitter by running
+
+```
+python topic_discovery.py --predict
+```
+
+It will predict topics for latest tweets and figure our popular ones.
+Besides, it also use newly crawled data to update the model.
+
+Using our authentication info, we get the following results on Dec.13.
+
+```
+
+```
+
 
 #### Recommend Slides
 Directory `Recommend_Slides` is to recommend related slides based on topics.
