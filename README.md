@@ -265,16 +265,16 @@ Or you can see what we have got after this step: word distributions of topics
 `Identify_Topics/topics.json` and word cloud figures of topics in 
 `Identify_Topics/data/topic_desc_fig/`. The following are word cloud figures for 10 topics.
 
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_0.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_1.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_2.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_3.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_4.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_5.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_6.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_7.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_8.png =200x100)
-![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_9.png =200x100)
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_0.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_1.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_2.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_3.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_4.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_5.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_6.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_7.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_8.png){:height="100px" width="200px"}
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_9.png){:height="100px" width="200px"}
 
 ##### Predict
 
