@@ -292,6 +292,8 @@ Emerging Topics ID (Ordered): 8 6 0 4 1 3
 To see what these topics are, you may go to 
 `data/topic_desc_fig/` directory and find corresponding word cloud!
 
+![image](https://github.com/liuyuxiang512/CourseProject/blob/main/Identify_Topics/data/topic_desc_fig/topic_0.png)
+
 
 #### Recommend Slides
 Directory `Recommend_Slides` is to recommend related slides based on topics.
