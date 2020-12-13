@@ -283,10 +283,10 @@ python topic_discovery.py --predict
 It will crawl latest tweets, predict topics for then and figure out popular ones.
 Meanwhile, it also uses these newly crawled data to update the LDA model.
 
-We got the following results on Dec.13th:
+We got the following results on Dec.13th 9am:
 
 ```
-Emerging Topics ID (Ordered): 8 1 7 6 5
+Emerging Topics ID (Ordered): 8 6 0 4 1 3
 ```
 
 To see what these topics are, you may go to 
